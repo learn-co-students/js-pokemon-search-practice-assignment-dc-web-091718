@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   parsePokemon(POKEMON)
   
-  window.document.querySelector("#pokemon-search-input").addEventListener("keypress", filterPokemon)
+  window.document.querySelector("#pokemon-search-input").addEventListener("keydown", filterPokemon)
 
 })
 
@@ -91,7 +91,9 @@ function filterPokemon(event) {
     let search_query = event.currentTarget.value.toLowerCase()
     let all_containers = document.querySelectorAll(".pokemon-container")
     for (let container of all_containers) {
-        if (!container.querySelector("h1").innerText.includes(search_query)) {
+        if (container.querySelector("h1").innerText.includes(search_query)) {
+            container.style.display = "block"
+        } else {
             container.style.display = "none"
         }
 
@@ -105,22 +107,31 @@ function displayModal(event) {
     let abilities = pokemon_hash.abilities.join("\n")
     let types = pokemon_hash.types.join("\n")
     let modal_container = document.createElement('div')
+
     modal_container.id = "pokemon-detail"
-    modal_container.class = "modal"
-    let modal_text = `
+    modal_container.className = "modal"
+    // modal_container.innerHTML = "text"
 
-      <div class="modal-content">
-        <span class="close">&times;</span>
-        <p>Moves: ${moves}</p>
-        <p>Abilities: ${abilities}</p>
-        <p>Types: ${types}</p>
-      </div>
+    let modal_content = document.createElement('div')
+    modal_content.className = "modal-content"
 
-    `
-    modal_container.innerHTML += modal_text
+    modal_container.appendChild(modal_content)
+
+    let close = document.createElement('span')
+    close.className = "close"
+    close.innerText = "x"
+
+    modal_content.appendChild(close)
+    let stats = {"moves": moves, "abilities": abilities, "types": types}
+    for (let attr in stats) {
+        let new_div = document.createElement("div")
+        new_div.innerText = `${attr}: ${stats[attr]}`
+        modal_content.appendChild(new_div)
+    }
+
     document.querySelector("#container").appendChild(modal_container)
     document.querySelector("#pokemon-detail").style.display = "block"
     document.querySelector(".close").addEventListener("click", function(e) {
-        e.currentTarget.parentElement.parentElement.style.display = "none"
+        document.querySelector(".modal").style.display = "none"
     })
 }
