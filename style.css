@@ -35,12 +35,32 @@ input:focus {
   float: left;
   width: 250px;
   margin: auto;
+
+
 }
 
 .center-text {
   text-align: center;
 }
 
+.center-image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .flip-image {
+  color: #2d72fc;
+}
+
+.pokemon-frame {
+  float: left;
+  width: 230px;
+  margin: 10px;
+  background: #fecd2f;
+
+}
+
+h1 {
   color: #2d72fc;
 }
